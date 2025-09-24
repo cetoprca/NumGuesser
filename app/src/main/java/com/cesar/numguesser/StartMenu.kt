@@ -6,10 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.cesar.numguesser.databinding.ConfigMenuBinding
-import com.cesar.numguesser.databinding.GameBinding
 import com.cesar.numguesser.databinding.StartMenuBinding
-import androidx.core.content.edit
 
 class StartMenu : AppCompatActivity() {
     private lateinit var startMenuBinding: StartMenuBinding
@@ -22,7 +19,17 @@ class StartMenu : AppCompatActivity() {
 
     fun loadStartMenu(){
         startMenuBinding = StartMenuBinding.inflate(layoutInflater)
+        setContentView(startMenuBinding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(startMenuBinding.root) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
+        loadBehavior()
+    }
+
+    fun loadBehavior(){
         startMenuBinding.config.setOnClickListener {
             val intent = Intent(this, ConfigMenu::class.java)
             startActivity(intent)
@@ -30,13 +37,6 @@ class StartMenu : AppCompatActivity() {
         startMenuBinding.play.setOnClickListener {
             val intent = Intent(this, Game::class.java)
             startActivity(intent)
-        }
-
-        setContentView(startMenuBinding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(startMenuBinding.root) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
         }
     }
 }
