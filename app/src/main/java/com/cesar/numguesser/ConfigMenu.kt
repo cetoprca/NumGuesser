@@ -16,6 +16,7 @@ class ConfigMenu : AppCompatActivity() {
 
     var numTries = 0
     var maxNum = 0
+    var debugMode = false
 
     private lateinit var configMenuBinding: ConfigMenuBinding
 
@@ -34,16 +35,19 @@ class ConfigMenu : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         val prefs: SharedPreferences = getSharedPreferences("AppConfig", MODE_PRIVATE)
         numTries = prefs.getInt("numTries", 5)
         maxNum = prefs.getInt("maxNum", 10)
+        debugMode = prefs.getBoolean("debugMode", false)
 
-        var numTriesInput = configMenuBinding.numTriesInput
-        var maxNumInput = configMenuBinding.maxNumInput
+        val numTriesInput = configMenuBinding.numTriesInput
+        val maxNumInput = configMenuBinding.maxNumInput
+        val debugModeInput = configMenuBinding.debugMode
 
         numTriesInput.setText(numTries.toString())
         maxNumInput.setText(maxNum.toString())
-
+        debugModeInput.isChecked = debugMode
 
         configMenuBinding.back.setOnClickListener {
             finish()
@@ -53,6 +57,7 @@ class ConfigMenu : AppCompatActivity() {
             prefs.edit()
                 .putInt("numTries", numTriesInput.text.toString().toInt())
                 .putInt("maxNum", maxNumInput.text.toString().toInt())
+                .putBoolean("debugMode", debugModeInput.isChecked)
                 .apply()
 
             finish()
