@@ -55,8 +55,7 @@ class ConfigMenu : AppCompatActivity() {
                 .putInt("maxNum", maxNumInput.text.toString().toInt())
                 .apply()
 
-            var intent = Intent(this, StartMenu::class.java)
-            startActivity(intent)
+            finish()
         }
     }
 }
